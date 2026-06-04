@@ -1,0 +1,128 @@
+import { readFileSync, writeFileSync, existsSync } from 'fs'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+const DB_PATH = join(__dirname, '../data.json')
+
+const defaultData = {
+  users: [],
+  categories: [
+    { id: 'cat-1', name: '马种介绍', sort: 1 },
+    { id: 'cat-2', name: '养护知识', sort: 2 },
+    { id: 'cat-3', name: '训练技巧', sort: 3 },
+    { id: 'cat-4', name: '赛事资讯', sort: 4 },
+    { id: 'cat-5', name: '骑手故事', sort: 5 }
+  ],
+  content: [
+    {
+      id: 'content-1',
+      title: '阿拉伯马：沙漠之舟的优雅传奇',
+      summary: '阿拉伯马是世界上最古老且最纯正的马种之一，以其独特的头部轮廓和耐力著称。',
+      cover: 'https://picsum.photos/400/300?random=1',
+      body: '<p>阿拉伯马是世界上最古老且最纯正的马种之一，起源于阿拉伯半岛...</p><p>它们以其独特的头部轮廓、凹形的面容和向上翘起的尾巴而闻名。阿拉伯马以其智慧、灵敏和耐力而著称，是长距离骑乘的理想选择。</p>',
+      category_id: 'cat-1',
+      view_count: 1256,
+      status: 1,
+      publish_time: new Date().toISOString()
+    },
+    {
+      id: 'content-2',
+      title: '马匹日常护理完全指南',
+      summary: '了解如何正确地为您的马匹进行日常护理，包括梳理、洗澡和蹄部护理。',
+      cover: 'https://picsum.photos/400/300?random=2',
+      body: '<p>马匹的日常护理是保持其健康和幸福的关键...</p><p>定期的梳理可以促进马匹皮肤的血液循环，同时也能检查是否有寄生虫或伤口。</p>',
+      category_id: 'cat-2',
+      view_count: 892,
+      status: 1,
+      publish_time: new Date().toISOString()
+    },
+    {
+      id: 'content-3',
+      title: '基础马术训练：从零开始的骑乘之旅',
+      summary: '对于初学者来说，掌握正确的基础骑乘姿势和技巧至关重要。',
+      cover: 'https://picsum.photos/400/300?random=3',
+      body: '<p>马术训练需要耐心、尊重和对马匹的理解...</p><p>初学者应该首先学会与马匹建立信任关系，然后逐步学习基本的骑乘姿势。</p>',
+      category_id: 'cat-3',
+      view_count: 1567,
+      status: 1,
+      publish_time: new Date().toISOString()
+    },
+    {
+      id: 'content-4',
+      title: '2024年国际马术赛事回顾',
+      summary: '回顾今年最精彩的马术赛事，包括奥运会和世界杯等顶级比赛。',
+      cover: 'https://picsum.photos/400/300?random=4',
+      body: '<p>2024年是马术运动精彩纷呈的一年...</p><p>从东京奥运会到各地的世界杯分站赛，涌现出了许多令人难忘的时刻。</p>',
+      category_id: 'cat-4',
+      view_count: 2341,
+      status: 1,
+      publish_time: new Date().toISOString()
+    },
+    {
+      id: 'content-5',
+      title: '传奇骑手：他们的故事与成就',
+      summary: '了解马术历史上最伟大的骑手们，他们的奋斗历程和辉煌成就。',
+      cover: 'https://picsum.photos/400/300?random=5',
+      body: '<p>马术史上涌现出许多传奇骑手...</p><p>他们的故事激励着一代又一代的马术爱好者。</p>',
+      category_id: 'cat-5',
+      view_count: 1789,
+      status: 1,
+      publish_time: new Date().toISOString()
+    }
+  ],
+  banners: [
+    { id: 'banner-1', title: '欢迎来到百骏灵集', image: 'https://picsum.photos/750/300?random=10', link_type: 'none', link_url: '', status: 1, sort: 1 },
+    { id: 'banner-2', title: '春季马匹护理指南', image: 'https://picsum.photos/750/300?random=11', link_type: 'page', link_url: '/detail/content-2', status: 1, sort: 2 }
+  ],
+  quick_entries: [
+    { id: 'entry-1', name: '马种介绍', icon: 'https://picsum.photos/80/80?random=20', link_url: '/category/cat-1', sort: 1, status: 1 },
+    { id: 'entry-2', name: '养护知识', icon: 'https://picsum.photos/80/80?random=21', link_url: '/category/cat-2', sort: 2, status: 1 },
+    { id: 'entry-3', name: '训练技巧', icon: 'https://picsum.photos/80/80?random=22', link_url: '/category/cat-3', sort: 3, status: 1 },
+    { id: 'entry-4', name: '赛事资讯', icon: 'https://picsum.photos/80/80?random=23', link_url: '/category/cat-4', sort: 4, status: 1 }
+  ],
+  collections: [],
+  browse_history: [],
+  messages: []
+}
+
+let db = null
+
+export function initDatabase() {
+  if (existsSync(DB_PATH)) {
+    try {
+      const content = readFileSync(DB_PATH, 'utf-8')
+      db = JSON.parse(content)
+    } catch (e) {
+      db = { ...defaultData }
+    }
+  } else {
+    db = { ...defaultData }
+    saveDb()
+  }
+}
+
+export function saveDb() {
+  writeFileSync(DB_PATH, JSON.stringify(db, null, 2), 'utf-8')
+}
+
+export function getDb() {
+  if (!db) {
+    initDatabase()
+  }
+  return db
+}
+
+// 辅助函数
+export function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2)
+}
+
+export default {
+  initDatabase,
+  saveDb,
+  getDb,
+  generateId
+}
