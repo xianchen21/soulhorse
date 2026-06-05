@@ -135,6 +135,7 @@ router.get('/content/:id', (req, res) => {
           title: item.title,
           summary: item.summary,
           cover: item.cover,
+          images: item.images || [],
           body: item.body,
           categoryName: cat ? cat.name : '',
           publishTime: item.publish_time,

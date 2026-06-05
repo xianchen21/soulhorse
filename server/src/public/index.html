@@ -24,9 +24,13 @@
     .nav-bar .search-box { flex: 1; margin: 0 16px; background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; }
     .nav-bar .search-box input { background: transparent; border: none; color: white; outline: none; width: 100%; }
     .nav-bar .search-box input::placeholder { color: rgba(255,255,255,0.7); }
-    .swipe { width: 100%; height: 180px; }
-    .swipe-item { width: 100%; height: 100%; }
-    .swipe-item img { width: 100%; height: 100%; object-fit: cover; }
+    .swipe { width: 100%; height: 180px; position: relative; }
+    .swipe-track { display: flex; transition: transform 0.3s ease; height: 100%; }
+    .swipe-item { width: 100%; height: 100%; flex-shrink: 0; }
+    .swipe-item img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+    .swipe-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+    .swipe-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.6); cursor: pointer; }
+    .swipe-dot.active { background: #fff; }
     .quick-entry { background: white; padding: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     .entry-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
     .entry-item img { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; }
@@ -67,6 +71,15 @@
     .detail-bottom-toolbar { position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; gap: 60px; padding: 12px; background: white; border-top: 1px solid #f5f5f5; z-index: 100; }
     .toolbar-item { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; color: #666; cursor: pointer; }
     .toolbar-item.active { color: var(--secondary); }
+    .image-gallery { width: 100%; position: relative; background: #000; }
+    .gallery-main { width: 100%; height: 280px; display: flex; align-items: center; justify-content: center; }
+    .gallery-main img { width: 100%; height: 100%; object-fit: contain; }
+    .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 8px; box-sizing: border-box; }
+    .gallery-nav-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.8); border: none; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
+    .gallery-thumbs { display: flex; overflow-x: auto; padding: 8px; background: #222; gap: 8px; }
+    .gallery-thumb { width: 60px; height: 45px; border-radius: 4px; cursor: pointer; object-fit: cover; opacity: 0.6; }
+    .gallery-thumb.active { opacity: 1; border: 2px solid var(--primary); }
+    .gallery-index { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
     .profile-header { background: linear-gradient(135deg, var(--primary), #3b82f6); padding: 30px 20px; color: white; }
     .profile-header .user { display: flex; align-items: center; gap: 16px; }
     .profile-header .avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 32px; }
@@ -110,7 +123,14 @@ const HomePage = {
       <div v-if="loading" class="loading">加载中...</div>
       <template v-else>
         <div v-if="banners.length" class="swipe">
-          <img :src="banners[0].image" class="swipe-item" alt="banner">
+          <div class="swipe-track" :style="{ transform: 'translateX(' + (-currentBanner * 100) + '%)' }">
+            <div v-for="(banner, idx) in banners" :key="banner.id" class="swipe-item" @click="goToBanner(banner)">
+              <img :src="banner.image" :alt="banner.title">
+            </div>
+          </div>
+          <div v-if="banners.length > 1" class="swipe-dots">
+            <div v-for="(banner, idx) in banners" :key="idx" :class="['swipe-dot', { active: idx === currentBanner }]" @click="currentBanner = idx"></div>
+          </div>
         </div>
         <div v-if="quickEntries.length" class="quick-entry">
           <div class="entry-item" v-for="e in quickEntries" :key="e.id" @click="goTo('category')">
@@ -153,16 +173,34 @@ const HomePage = {
     const banners = ref([]);
     const quickEntries = ref([]);
     const contents = ref([]);
+    const currentBanner = ref(0);
+    let bannerTimer = null;
+    
+    const startBannerTimer = () => {
+      if (banners.value.length <= 1) return;
+      bannerTimer = setInterval(() => {
+        currentBanner.value = (currentBanner.value + 1) % banners.value.length;
+      }, 3000);
+    };
+    
+    const goToBanner = (banner) => {
+      if (banner.link_url) {
+        goTo(banner.link_url);
+      }
+    };
+    
     onMounted(async () => {
       try {
         const res = await api.get('/home');
         banners.value = res.data.data.banners;
         quickEntries.value = res.data.data.quickEntries;
         contents.value = res.data.data.contents;
+        startBannerTimer();
       } catch (e) { console.error(e); }
       loading.value = false;
     });
-    return { loading, banners, quickEntries, contents, goTo };
+    
+    return { loading, banners, quickEntries, contents, goTo, currentBanner, goToBanner };
   }
 };
 
@@ -301,7 +339,20 @@ const DetailPage = {
       </div>
       <div v-if="loading" class="loading">加载中...</div>
       <template v-else>
-        <img v-if="content" :src="content.cover" class="cover">
+        <div v-if="content.images && content.images.length > 0" class="image-gallery">
+          <div class="gallery-main">
+            <img :src="currentImage" @click="toggleFullscreen" alt="gallery">
+          </div>
+          <div v-if="content.images.length > 1" class="gallery-nav">
+            <button class="gallery-nav-btn" @click.stop="prevImage">◀</button>
+            <button class="gallery-nav-btn" @click.stop="nextImage">▶</button>
+          </div>
+          <div v-if="content.images.length > 1" class="gallery-index">{{ currentIndex + 1 }} / {{ content.images.length }}</div>
+          <div v-if="content.images.length > 1" class="gallery-thumbs">
+            <img v-for="(img, idx) in content.images" :key="idx" :src="img" :class="['gallery-thumb', { active: idx === currentIndex }]" @click="currentIndex = idx" alt="thumb">
+          </div>
+        </div>
+        <img v-else-if="content" :src="content.cover" class="cover">
         <div class="content-wrap" v-if="content">
           <h2>{{ content.title }}</h2>
           <div class="meta">
@@ -342,15 +393,32 @@ const DetailPage = {
     const content = ref(null);
     const related = ref([]);
     const isCollected = ref(false);
+    const currentIndex = ref(0);
+    const currentImage = computed(() => {
+      if (!content.value || !content.value.images) return '';
+      return content.value.images[currentIndex.value];
+    });
+    const prevImage = () => {
+      if (!content.value) return;
+      currentIndex.value = (currentIndex.value - 1 + content.value.images.length) % content.value.images.length;
+    };
+    const nextImage = () => {
+      if (!content.value) return;
+      currentIndex.value = (currentIndex.value + 1) % content.value.images.length;
+    };
+    const toggleFullscreen = () => {
+      // Simple fullscreen-like view: just show the image in an alert
+    };
     const route = VueRouter.useRoute();
     onMounted(async () => {
       const res = await api.get('/content/' + route.params.id);
       content.value = res.data.data.content;
       related.value = res.data.data.related;
+      currentIndex.value = 0;
       loading.value = false;
     });
     const toggleCollect = () => { isCollected.value = !isCollected.value; };
-    return { loading, content, related, isCollected, toggleCollect, goTo };
+    return { loading, content, related, isCollected, toggleCollect, goTo, currentIndex, currentImage, prevImage, nextImage, toggleFullscreen };
   }
 };
 
