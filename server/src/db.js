@@ -5,13 +5,15 @@ import { dirname, join } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// Vercel 环境下的路径配置
+// Vercel 环境下的路径配置 - 支持从 server/src/ 或 api/ 调用
 const isVercel = process.env.VERCEL || process.env.NODE_ENV === 'production'
-const DB_PATH = isVercel 
-  ? join(__dirname, '../../data.json')  // Vercel 环境
-  : join(__dirname, '../data.json')     // 本地开发环境
+const DB_PATH = join(__dirname, '../data.json')
 
+console.log('=== DB 初始化 ===')
+console.log('isVercel:', isVercel)
+console.log('__dirname:', __dirname)
 console.log('DB_PATH:', DB_PATH)
+console.log('File exists:', existsSync(DB_PATH))
 
 const defaultData = {
   users: [],
@@ -103,20 +105,22 @@ const defaultData = {
 let db = null
 
 export function initDatabase() {
-  console.log('Initializing database, DB_PATH:', DB_PATH)
+  console.log('=== 正在初始化数据库 ===')
+  console.log('DB_PATH:', DB_PATH)
   console.log('File exists:', existsSync(DB_PATH))
   
   if (existsSync(DB_PATH)) {
     try {
       const content = readFileSync(DB_PATH, 'utf-8')
       db = JSON.parse(content)
-      console.log('Database loaded from file')
+      console.log('✅ 从文件加载数据库成功')
+      console.log('Content count:', db?.content?.length)
     } catch (e) {
-      console.error('Failed to load database from file, using default:', e)
+      console.error('❌ 从文件加载数据库失败，使用默认数据:', e)
       db = { ...defaultData }
     }
   } else {
-    console.log('Database file not found, using default data')
+    console.log('⚠️ 数据库文件不存在，使用默认数据')
     db = { ...defaultData }
   }
 }
