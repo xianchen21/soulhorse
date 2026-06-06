@@ -126,7 +126,16 @@ export function initDatabase() {
 }
 
 export function saveDb() {
-  writeFileSync(DB_PATH, JSON.stringify(db, null, 2), 'utf-8')
+  const isVercel = process.env.VERCEL || process.env.NODE_ENV === 'production'
+  if (isVercel) {
+    console.log('Vercel 只读文件系统，跳过保存')
+    return
+  }
+  try {
+    writeFileSync(DB_PATH, JSON.stringify(db, null, 2), 'utf-8')
+  } catch (e) {
+    console.error('保存数据库失败:', e)
+  }
 }
 
 export function getDb() {

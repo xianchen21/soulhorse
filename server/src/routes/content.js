@@ -108,12 +108,15 @@ router.get('/content/:id', (req, res) => {
   try {
     const { id } = req.params
     const db = getDb()
+    const isVercel = process.env.VERCEL || process.env.NODE_ENV === 'production'
 
-    // 增加浏览量
-    const content = db.content.find(c => c.id === id)
-    if (content) {
-      content.view_count = (content.view_count || 0) + 1
-      saveDb()
+    // 增加浏览量（Vercel 环境下跳过，因为是只读文件系统）
+    if (!isVercel) {
+      const content = db.content.find(c => c.id === id)
+      if (content) {
+        content.view_count = (content.view_count || 0) + 1
+        saveDb()
+      }
     }
 
     const item = db.content.find(c => c.id === id)
