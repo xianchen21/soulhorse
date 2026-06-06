@@ -1,15 +1,17 @@
 {
   "name": "soulhorse-wiki",
   "version": "1.0.0",
-  "description": "百骏灵集-马匹百科双端产品",
+  "type": "module",
+  "main": "server/src/index.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "dev:client": "cd client && npm run dev",
-    "dev:server": "cd server && npm run dev",
-    "build": "cd client && npm run build",
+    "dev": "cd server && npm run dev",
     "start": "cd server && npm start"
   },
-  "devDependencies": {
-    "concurrently": "^8.2.0"
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "uuid": "^9.0.0"
   }
 }
