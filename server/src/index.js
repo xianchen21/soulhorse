@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3001
 // 中间件
 app.use(cors())
 app.use(express.json())
+app.use(express.static('public'))
 
 // 初始化数据库
 initDatabase()

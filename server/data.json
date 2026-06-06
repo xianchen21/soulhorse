@@ -1,27 +1,47 @@
 {
   "users": [],
   "categories": [
-    { "id": "cat-1", "name": "马种介绍", "sort": 1 },
-    { "id": "cat-2", "name": "养护知识", "sort": 2 },
-    { "id": "cat-3", "name": "训练技巧", "sort": 3 },
-    { "id": "cat-4", "name": "赛事资讯", "sort": 4 },
-    { "id": "cat-5", "name": "骑手故事", "sort": 5 }
+    {
+      "id": "cat-1",
+      "name": "马种介绍",
+      "sort": 1
+    },
+    {
+      "id": "cat-2",
+      "name": "养护知识",
+      "sort": 2
+    },
+    {
+      "id": "cat-3",
+      "name": "训练技巧",
+      "sort": 3
+    },
+    {
+      "id": "cat-4",
+      "name": "赛事资讯",
+      "sort": 4
+    },
+    {
+      "id": "cat-5",
+      "name": "骑手故事",
+      "sort": 5
+    }
   ],
   "content": [
     {
       "id": "content-1",
       "title": "阿帕卢萨马：传奇的花斑马种",
       "summary": "阿帕卢萨马是北美印第安人培育的马种，以独特的花斑闻名于世。",
-      "cover": "/images/阿帕卢萨马/一百种有趣的灵魂——其一：阿帕卢萨马_1_Fiona_来自小红书网页版.jpg",
+      "cover": "/images/阿帕卢萨马/apalossa_1.jpg",
       "images": [
-        "/images/阿帕卢萨马/一百种有趣的灵魂——其一：阿帕卢萨马_1_Fiona_来自小红书网页版.jpg",
-        "/images/阿帕卢萨马/一百种有趣的灵魂——其一：阿帕卢萨马_2_Fiona_来自小红书网页版.jpg",
-        "/images/阿帕卢萨马/一百种有趣的灵魂——其一：阿帕卢萨马_3_Fiona_来自小红书网页版.jpg",
-        "/images/阿帕卢萨马/一百种有趣的灵魂——其一：阿帕卢萨马_4_Fiona_来自小红书网页版.jpg"
+        "/images/阿帕卢萨马/apalossa_1.jpg",
+        "/images/阿帕卢萨马/apalossa_2.jpg",
+        "/images/阿帕卢萨马/apalossa_3.jpg",
+        "/images/阿帕卢萨马/apalossa_4.jpg"
       ],
-      "body": "<p>阿帕卢萨马是北美印第安人培育的马种，以独特的花斑闻名于世。它们的毛色有雪花豹纹、毛毯纹等多种变化，每一匹都独一无二。</p><p>阿帕卢萨马的特点是：独特的花斑、白色巩膜、条纹蹄等。它们性格温顺、聪明，同时具备出色的耐力。</p>",
+      "body": "<h2>一百种有趣的灵魂——其一：阿帕卢萨马</h2><p><strong>来自北美的「花斑精灵」</strong></p><p><strong>- 中文名</strong>：阿帕卢萨马</p><p><strong>- 英文名</strong>：Appaloosa</p><p><strong>- 产地</strong>：美国爱达荷州、华盛顿州、俄勒冈州</p><p><strong>- 肩高</strong>：145-160cm</p><p><strong>- 体重</strong>：450-500kg</p><h3>🐴 血统来源</h3><p>血统可追溯至16世纪西班牙人带到美洲的马，由北美原住民内兹珀斯人（Nez Perce）经几百年选育而成，因帕卢斯河（Palouse River）而得名Appaloosa。1877年战争后几近灭绝，1938年成立品种协会，现已恢复至全球约70万匹。</p><h3>✨ 标志性特征（记住这几点就不会认错）</h3><p>1. 独特的皮毛图案：雪花纹（Snowflake）、豹纹（Leopard）、毛毯纹（Blanket）等，每一匹的斑点图案都是独一无二的</p><p>2. 白色巩膜：环绕在虹膜周围的白色+深色巩膜</p><p>3. 条纹状蹄壁：即便纯色个体也有竖条纹蹄壁，辨识度超高</p><p>4. 斑驳皮肤：口鼻、眼睛周围、生殖器等部位有斑点皮肤，一眼可辨</p><h3>🏇 性格与能力</h3><p><strong>- 性格</strong>：聪明、温顺、学习快、稳定，同时也能兼具速度</p><p><strong>- 运动能力</strong>：耐力强、敏捷度高、多才多艺，适合全项目选种</p><p><strong>- 擅长</strong>：西部马术、赛马、休闲骑乘，越爱工作越能展现魅力</p><h3>💡 冷知识</h3><p><strong>- 马背上的LP基因</strong>：携带这个基因才会有斑点，LP纯合子会有夜盲症风险</p><p><strong>- 斑点会随年龄变化</strong>：小时候的斑点图案，长大后也可能完全不一样</p>",
       "category_id": "cat-1",
-      "view_count": 1256,
+      "view_count": 1262,
       "status": 1,
       "publish_time": "2024-01-01"
     },
@@ -29,24 +49,24 @@
       "id": "content-2",
       "title": "马瓦里马：会跳舞的弯耳朵马",
       "summary": "来自印度的珍稀马种，耳朵能旋转180度，以优雅著称。",
-      "cover": "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_1_Fiona_来自小红书网页版.jpg",
+      "cover": "/images/马瓦里马/marwari_1.jpg",
       "images": [
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_1_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_2_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_3_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_4_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_5_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_6_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_7_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_8_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_9_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_10_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_11_Fiona_来自小红书网页版.jpg",
-        "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_12_Fiona_来自小红书网页版.jpg"
+        "/images/马瓦里马/marwari_1.jpg",
+        "/images/马瓦里马/marwari_2.jpg",
+        "/images/马瓦里马/marwari_3.jpg",
+        "/images/马瓦里马/marwari_4.jpg",
+        "/images/马瓦里马/marwari_5.jpg",
+        "/images/马瓦里马/marwari_6.jpg",
+        "/images/马瓦里马/marwari_7.jpg",
+        "/images/马瓦里马/marwari_8.jpg",
+        "/images/马瓦里马/marwari_9.jpg",
+        "/images/马瓦里马/marwari_10.jpg",
+        "/images/马瓦里马/marwari_11.jpg",
+        "/images/马瓦里马/marwari_12.jpg"
       ],
-      "body": "<p>马瓦里马来自印度，是一种珍稀的马种，最特别的是它们的耳朵能旋转180度。它们以优雅著称，历史上是皇室战马，能在战场上灵活转弯。</p><p>体型中等，身高约150-165cm，体重约500-540kg，毛色多样，包括各种颜色都有。步态优雅，做转马。</p>",
+      "body": "<h2>一百种有趣的灵魂——其二：马瓦里马</h2><p>印度有这么一种马，不仅耳朵能弯成爱心状，还是世界上最容易认出来的马种之一。</p><h3>🐴 起源</h3><p>来自印度西北部拉贾斯坦邦的马尔瓦（Marwar）地区，因此得名 Marwari horse</p><p>约12世纪由当地土王与阿富汗骑兵带来的中亚血统混种而成，能在沙漠与山地生存并适应拉贾斯坦的极端气候。</p><p>历史上是皇家战马，能在战场上灵活转弯、掉头，战斗力强。</p><p>20世纪差点灭绝，如今被印度政府列为国宝级马种之一。</p><h3>✨ 特色</h3><p><strong>- 耳朵</strong>：向内弯成爱心状，能旋转180度，随时切换可爱与警戒状态</p><p><strong>- 体型</strong>：中等身材，肩高约150-165cm，体重约500-540kg，步态优雅，天生会跳舞，耐力强</p><p><strong>- 毛色</strong>：多样，枣红、黑色、栗色、灰色等为主，但纯白色最珍贵</p><p><strong>- 步态</strong>：独特的四拍摇摆步（revaal/dhau），骑起来特别稳</p><p>现在马瓦里马在拉贾斯坦邦的婚礼和仪式上仍然是「尊贵嘉宾」，用来迎娶新娘，希望能给新人带来好运，象征着对婚礼和新人的祝福。</p><p>话说这种能把耳朵弯成爱心的「会跳舞的马」，怎么能让人不心动呢？你想不想亲眼见见拉贾斯坦邦的土王？</p>",
       "category_id": "cat-1",
-      "view_count": 1892,
+      "view_count": 1896,
       "status": 1,
       "publish_time": "2024-01-02"
     },
@@ -54,26 +74,26 @@
       "id": "content-3",
       "title": "阿哈尔捷金马：丝绸之路上的汗血宝马",
       "summary": "来自土库曼斯坦的国宝，世界上最稀有的马种之一，以其独特的金属光泽皮毛闻名。",
-      "cover": "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_1_Fiona_来自小红书网页版.jpg",
+      "cover": "/images/阿哈尔捷金马/akhal_1.jpg",
       "images": [
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_1_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_2_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_3_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_4_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_5_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_6_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_7_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_8_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_9_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_10_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_11_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_12_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_13_Fiona_来自小红书网页版.jpg",
-        "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️：阿哈尔捷金_14_Fiona_来自小红书网页版.jpg"
+        "/images/阿哈尔捷金马/akhal_1.jpg",
+        "/images/阿哈尔捷金马/akhal_2.jpg",
+        "/images/阿哈尔捷金马/akhal_3.jpg",
+        "/images/阿哈尔捷金马/akhal_4.jpg",
+        "/images/阿哈尔捷金马/akhal_5.jpg",
+        "/images/阿哈尔捷金马/akhal_6.jpg",
+        "/images/阿哈尔捷金马/akhal_7.jpg",
+        "/images/阿哈尔捷金马/akhal_8.jpg",
+        "/images/阿哈尔捷金马/akhal_9.jpg",
+        "/images/阿哈尔捷金马/akhal_10.jpg",
+        "/images/阿哈尔捷金马/akhal_11.jpg",
+        "/images/阿哈尔捷金马/akhal_12.jpg",
+        "/images/阿哈尔捷金马/akhal_13.jpg",
+        "/images/阿哈尔捷金马/akhal_14.jpg"
       ],
-      "body": "<p>阿哈尔捷金马来自土库曼斯坦，是国宝级的马种，也是世界上最稀有的马种之一。传说中汗血宝马就是它们的后代。</p><p>它们的特点是：皮毛有金属光泽，皮肤薄，运动时可以看到血管，出汗时呈现出独特的光泽。它们体型纤细优雅，头型精致。</p>",
+      "body": "<h2>一百种有趣的灵魂——其三：阿哈尔捷金马</h2><p>阿哈尔捷金马（Akhal-Teke）来自土库曼斯坦，是世界上最古老、最稀有的纯种马之一，它们的皮毛会在阳光下反射出独特的金属光泽，因此也被称为「来自天堂的马」。传说中汗血宝马就是它们的后代，因为皮肤薄，运动时可以看到血管，出汗时皮肤会充血泛红，看起来像在流血，自然也有不同的「汗血」说法，但这种特性让它们在历史上成为了珍贵的战马。如今土库曼斯坦将它们印在国徽和货币上，是国宝级的存在。</p><p>阿哈尔捷金马在丝绸之路的历史上也扮演了重要角色，它们能在沙漠中长途跋涉，据说有一匹马曾在3000年前创下了1935年从阿什哈巴德跑到莫斯科的纪录，用时84天，跑完4000多公里的沙漠路，因此也被称为「沙漠中的超级马拉松选手」。</p><h3>✨ 特征</h3><p>体型纤细优雅，脖子修长，头型精致，身体线条流畅纤细，皮肤薄能看到血管</p><h3>✨ 标志性特征</h3><p>皮毛有金属光泽，皮肤薄，出汗时会呈现出独特的「汗血」效果（图1-9）</p><h3>🖼️ 图片说明</h3><p>图1-9是土库曼斯坦原版阿哈尔捷金，图10是中国繁育的阿哈尔捷金，图11-14是与其他马种的混血</p>",
       "category_id": "cat-1",
-      "view_count": 2567,
+      "view_count": 2576,
       "status": 1,
       "publish_time": "2024-01-03"
     },
@@ -103,15 +123,112 @@
     }
   ],
   "banners": [
-    { "id": "banner-1", "title": "阿帕卢萨马", "image": "/images/阿帕卢萨马/一百种有趣的灵魂——其一：阿帕卢萨马_1_Fiona_来自小红书网页版.jpg", "link_type": "page", "link_url": "/detail/content-1", "status": 1, "sort": 1 },
-    { "id": "banner-2", "title": "马瓦里马", "image": "/images/马瓦里马/一百种有趣的灵魂——其2️⃣：马瓦里马_1_Fiona_来自小红书网页版.jpg", "link_type": "page", "link_url": "/detail/content-2", "status": 1, "sort": 2 },
-    { "id": "banner-3", "title": "阿哈尔捷金马", "image": "/images/阿哈尔捷金马/一百种有趣的灵魂——其3️⃣：阿哈尔捷金_1_Fiona_来自小红书网页版.jpg", "link_type": "page", "link_url": "/detail/content-3", "status": 1, "sort": 3 }
+    {
+      "id": "banner-1",
+      "title": "阿帕卢萨马",
+      "image": "/images/阿帕卢萨马/apalossa_1.jpg",
+      "link_type": "page",
+      "link_url": "/detail/content-1",
+      "status": 1,
+      "sort": 1
+    },
+    {
+      "id": "banner-2",
+      "title": "马瓦里马",
+      "image": "/images/马瓦里马/marwari_1.jpg",
+      "link_type": "page",
+      "link_url": "/detail/content-2",
+      "status": 1,
+      "sort": 2
+    },
+    {
+      "id": "banner-3",
+      "title": "阿哈尔捷金马",
+      "image": "/images/阿哈尔捷金马/akhal_1.jpg",
+      "link_type": "page",
+      "link_url": "/detail/content-3",
+      "status": 1,
+      "sort": 3
+    },
+    {
+      "id": "banner-4",
+      "title": "阿帕卢萨马2",
+      "image": "/images/阿帕卢萨马/apalossa_2.jpg",
+      "link_type": "page",
+      "link_url": "/detail/content-1",
+      "status": 1,
+      "sort": 4
+    },
+    {
+      "id": "banner-5",
+      "title": "马瓦里马2",
+      "image": "/images/马瓦里马/marwari_2.jpg",
+      "link_type": "page",
+      "link_url": "/detail/content-2",
+      "status": 1,
+      "sort": 5
+    },
+    {
+      "id": "banner-6",
+      "title": "阿哈尔捷金马2",
+      "image": "/images/阿哈尔捷金马/akhal_2.jpg",
+      "link_type": "page",
+      "link_url": "/detail/content-3",
+      "status": 1,
+      "sort": 6
+    },
+    {
+      "id": "banner-7",
+      "title": "阿帕卢萨马3",
+      "image": "/images/阿帕卢萨马/apalossa_3.jpg",
+      "link_type": "page",
+      "link_url": "/detail/content-1",
+      "status": 1,
+      "sort": 7
+    },
+    {
+      "id": "banner-8",
+      "title": "阿哈尔捷金马3",
+      "image": "/images/阿哈尔捷金马/akhal_3.jpg",
+      "link_type": "page",
+      "link_url": "/detail/content-3",
+      "status": 1,
+      "sort": 8
+    }
   ],
   "quick_entries": [
-    { "id": "entry-1", "name": "马种介绍", "icon": "/images/阿帕卢萨马/一百种有趣的灵魂——其一：阿帕卢萨马_1_Fiona_来自小红书网页版.jpg", "link_url": "/category", "sort": 1, "status": 1 },
-    { "id": "entry-2", "name": "养护知识", "icon": "https://picsum.photos/80/80?random=21", "link_url": "/category", "sort": 2, "status": 1 },
-    { "id": "entry-3", "name": "训练技巧", "icon": "https://picsum.photos/80/80?random=22", "link_url": "/category", "sort": 3, "status": 1 },
-    { "id": "entry-4", "name": "赛事资讯", "icon": "https://picsum.photos/80/80?random=23", "link_url": "/category", "sort": 4, "status": 1 }
+    {
+      "id": "entry-1",
+      "name": "马种介绍",
+      "icon": "/images/阿帕卢萨马/apalossa_1.jpg",
+      "link_url": "/category",
+      "sort": 1,
+      "status": 1
+    },
+    {
+      "id": "entry-2",
+      "name": "养护知识",
+      "icon": "https://picsum.photos/80/80?random=21",
+      "link_url": "/category",
+      "sort": 2,
+      "status": 1
+    },
+    {
+      "id": "entry-3",
+      "name": "训练技巧",
+      "icon": "https://picsum.photos/80/80?random=22",
+      "link_url": "/category",
+      "sort": 3,
+      "status": 1
+    },
+    {
+      "id": "entry-4",
+      "name": "赛事资讯",
+      "icon": "https://picsum.photos/80/80?random=23",
+      "link_url": "/category",
+      "sort": 4,
+      "status": 1
+    }
   ],
   "collections": [],
   "browse_history": [],

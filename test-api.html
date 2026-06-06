@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>百骏灵集 - API测试页</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    h1 { color: #2563EB; }
+    .card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .btn { background: #2563EB; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+    .btn:hover { background: #1d4ed8; }
+    pre { background: #1f2937; color: #10b981; padding: 15px; border-radius: 6px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>🐎 百骏灵集 - API测试页</h1>
+  <div class="card">
+    <h2>后端状态</h2>
+    <p id="server-status">检查中...</p>
+  </div>
+  <div class="card">
+    <h2>API测试</h2>
+    <button class="btn" onclick="testHome()">测试首页数据</button>
+    <button class="btn" onclick="testContent()">测试内容列表</button>
+    <button class="btn" onclick="testCategories()">测试分类列表</button>
+    <pre id="api-result">等待请求...</pre>
+  </div>
+  <div class="card">
+    <h2>快速启动指南</h2>
+    <p>前端依赖可能尚未安装，请在项目目录运行：</p>
+    <pre>
+cd client
+npm install
+npm run dev
+    </pre>
+    <p>后端已在运行：<a href="http://localhost:3001/api/health" target="_blank">http://localhost:3001</a></p>
+  </div>
+  
+  <script>
+    const apiUrl = 'http://localhost:3001/api';
+    const statusEl = document.getElementById('server-status');
+    const resultEl = document.getElementById('api-result');
+
+    async function checkStatus() {
+      try {
+        const res = await fetch(apiUrl + '/health');
+        const data = await res.json();
+        statusEl.textContent = '✅ 后端服务正常运行！';
+        statusEl.style.color = '#10b981';
+      } catch (e) {
+        statusEl.textContent = '❌ 后端服务未响应';
+        statusEl.style.color = '#ef4444';
+      }
+    }
+
+    async function testHome() {
+      try {
+        const res = await fetch(apiUrl + '/home');
+        const data = await res.json();
+        resultEl.textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        resultEl.textContent = 'Error: ' + e;
+      }
+    }
+
+    async function testContent() {
+      try {
+        const res = await fetch(apiUrl + '/content');
+        const data = await res.json();
+        resultEl.textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        resultEl.textContent = 'Error: ' + e;
+      }
+    }
+
+    async function testCategories() {
+      try {
+        const res = await fetch(apiUrl + '/categories');
+        const data = await res.json();
+        resultEl.textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        resultEl.textContent = 'Error: ' + e;
+      }
+    }
+
+    checkStatus();
+  </script>
+</body>
+</html>

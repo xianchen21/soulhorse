@@ -91,6 +91,7 @@ router.get('/content', (req, res) => {
         title: c.title,
         summary: c.summary,
         cover: c.cover,
+        category_id: c.category_id,
         categoryName: c.categoryName,
         publishTime: c.publish_time,
         viewCount: c.view_count

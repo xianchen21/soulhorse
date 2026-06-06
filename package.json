@@ -1,0 +1,15 @@
+{
+  "name": "soulhorse-wiki",
+  "version": "1.0.0",
+  "description": "百骏灵集-马匹百科双端产品",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

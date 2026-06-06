@@ -1,0 +1,13 @@
+{
+  "version": "2.0",
+  "envId": "xianchen-d1gwajrvm55a60fdb",
+  "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
+  "app": {
+    "serviceName": "soulhorse",
+    "framework": "static",
+    "installCommand": "",
+    "buildCommand": "",
+    "outputDir": "public",
+    "deployPath": "/"
+  }
+}
