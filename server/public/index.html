@@ -146,8 +146,8 @@ const HomePage = {
               <div class="title">{{ c.title }}</div>
               <div class="summary">{{ c.summary }}</div>
               <div class="meta">
-                <span>{{ c.publish_time }}</span>
-                <span>👁 {{ c.view_count }}</span>
+                <span>{{ c.publishTime }}</span>
+                <span>👁 {{ c.viewCount }}</span>
               </div>
             </div>
           </div>
@@ -231,8 +231,8 @@ const SearchPage = {
             <div class="title">{{ c.title }}</div>
             <div class="summary">{{ c.summary }}</div>
             <div class="meta">
-              <span>{{ c.publish_time }}</span>
-              <span>👁 {{ c.view_count }}</span>
+              <span>{{ c.publishTime }}</span>
+              <span>👁 {{ c.viewCount }}</span>
             </div>
           </div>
         </div>
@@ -290,8 +290,8 @@ const CategoryPage = {
                 <div class="title">{{ c.title }}</div>
                 <div class="summary">{{ c.summary }}</div>
                 <div class="meta">
-                  <span>{{ c.publish_time }}</span>
-                  <span>👁 {{ c.view_count }}</span>
+                  <span>{{ c.publishTime }}</span>
+                  <span>👁 {{ c.viewCount }}</span>
                 </div>
               </div>
             </div>
@@ -356,8 +356,8 @@ const DetailPage = {
         <div class="content-wrap" v-if="content">
           <h2>{{ content.title }}</h2>
           <div class="meta">
-            <span>{{ content.publish_time }}</span>
-            <span>👁 {{ content.view_count }}</span>
+            <span>{{ content.publishTime }}</span>
+            <span>👁 {{ content.viewCount }}</span>
           </div>
           <div class="body" v-html="content.body"></div>
         </div>
@@ -369,7 +369,7 @@ const DetailPage = {
               <div class="info">
                 <div class="title">{{ r.title }}</div>
                 <div class="meta">
-                  <span>{{ r.publish_time }}</span>
+                  <span>{{ r.publishTime }}</span>
                 </div>
               </div>
             </div>
@@ -411,10 +411,15 @@ const DetailPage = {
     };
     const route = VueRouter.useRoute();
     onMounted(async () => {
-      const res = await api.get('/content/' + route.params.id);
-      content.value = res.data.data.content;
-      related.value = res.data.data.related;
-      currentIndex.value = 0;
+      try {
+        const res = await api.get('/content/' + route.params.id);
+        content.value = res.data.data.content;
+        related.value = res.data.data.related;
+        currentIndex.value = 0;
+      } catch (error) {
+        console.error('Failed to load content:', error);
+        content.value = null;
+      }
       loading.value = false;
     });
     const toggleCollect = () => { isCollected.value = !isCollected.value; };
