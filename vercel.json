@@ -3,24 +3,10 @@
   "builds": [
     {
       "src": "server/src/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "server/src/**",
-          "server/public/**",
-          "server/data.json",
-          "server/package.json"
-        ]
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/server/src/index.js"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+    { "src": "/(.*)", "dest": "/server/src/index.js" }
+  ]
 }
