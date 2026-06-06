@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
-  <title>一百种有趣的灵魂 - 马匹百科</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐴</text></svg>">
+  <title>百骏灵集 - 马匹百科</title>
   <style>
     :root {
       --primary: #2563EB;
@@ -15,9 +14,521 @@
       --text-light: #666;
       --white: #fff;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body, #app { height: 100%; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
+    .page { min-height: 100%; padding-bottom: 56px; }
+    .nav-bar { background: var(--primary); color: white; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .nav-bar h1 { font-size: 18px; font-weight: 600; }
+    .nav-bar .right-actions { display: flex; gap: 12px; }
+    .nav-bar .search-box { flex: 1; margin: 0 16px; background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; }
+    .nav-bar .search-box input { background: transparent; border: none; color: white; outline: none; width: 100%; }
+    .nav-bar .search-box input::placeholder { color: rgba(255,255,255,0.7); }
+    .swipe { width: 100%; height: 180px; position: relative; }
+    .swipe-track { display: flex; transition: transform 0.3s ease; height: 100%; }
+    .swipe-item { width: 100%; height: 100%; flex-shrink: 0; }
+    .swipe-item img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+    .swipe-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+    .swipe-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.6); cursor: pointer; }
+    .swipe-dot.active { background: #fff; }
+    .quick-entry { background: white; padding: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .entry-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+    .entry-item img { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; }
+    .entry-item span { font-size: 12px; color: var(--text-light); }
+    .section-title { padding: 16px; font-size: 18px; font-weight: 600; background: var(--bg); }
+    .content-list { padding: 0 12px; display: flex; flex-direction: column; gap: 12px; }
+    .content-card { background: white; border-radius: 8px; display: flex; gap: 12px; padding: 12px; cursor: pointer; }
+    .content-card img { width: 100px; height: 80px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+    .content-card .info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
+    .content-card .title { font-size: 15px; font-weight: 500; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+    .content-card .summary { font-size: 13px; color: var(--text-light); margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+    .content-card .meta { display: flex; gap: 16px; font-size: 12px; color: var(--text-light); margin-top: 6px; }
+    .tab-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; height: 56px; border-top: 1px solid #eee; z-index: 100; }
+    .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 12px; color: var(--text-light); cursor: pointer; }
+    .tab-item.active { color: var(--primary); }
+    .copyright { text-align: center; padding: 16px; font-size: 12px; color: #999; background: var(--bg); }
+    .loading { display: flex; justify-content: center; align-items: center; padding: 40px; }
+    .empty { text-align: center; padding: 60px 20px; color: var(--text-light); }
+    .search-page .search-header { padding: 16px; background: white; position: sticky; top: 0; }
+    .search-page .search-input { display: flex; gap: 12px; }
+    .search-page .search-input input { flex: 1; padding: 10px 14px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
+    .search-history { padding: 16px; }
+    .search-history h3 { font-size: 14px; color: var(--text-light); margin-bottom: 12px; display: flex; justify-content: space-between; }
+    .search-history .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .search-history .tag { padding: 6px 16px; background: #f0f0f0; border-radius: 16px; font-size: 13px; cursor: pointer; }
+    .category-page { display: flex; height: calc(100% - 56px); }
+    .category-sidebar { width: 100px; background: #f5f5f5; overflow-y: auto; flex-shrink: 0; }
+    .category-sidebar-item { padding: 16px 12px; text-align: center; font-size: 14px; color: var(--text-light); border-bottom: 1px solid #e5e5e5; cursor: pointer; }
+    .category-sidebar-item.active { background: white; color: var(--primary); font-weight: 500; }
+    .category-content { flex: 1; overflow-y: auto; padding: 12px; background: white; }
+    .detail-page .cover { width: 100%; height: 250px; object-fit: cover; }
+    .detail-page .content-wrap { padding: 16px; background: white; }
+    .detail-page h2 { font-size: 22px; font-weight: 600; margin-bottom: 12px; }
+    .detail-page .meta { color: var(--text-light); font-size: 14px; padding-bottom: 16px; border-bottom: 1px solid #eee; }
+    .detail-page .body { line-height: 1.8; padding: 16px 0; }
+    .detail-page .related { margin-top: 20px; }
+    .detail-page .related h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+    .detail-bottom-toolbar { position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; gap: 60px; padding: 12px; background: white; border-top: 1px solid #f5f5f5; z-index: 100; }
+    .toolbar-item { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 12px; color: #666; cursor: pointer; }
+    .toolbar-item.active { color: var(--secondary); }
+    .image-gallery { width: 100%; position: relative; background: #000; }
+    .gallery-main { width: 100%; height: 280px; display: flex; align-items: center; justify-content: center; }
+    .gallery-main img { width: 100%; height: 100%; object-fit: contain; }
+    .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 8px; box-sizing: border-box; }
+    .gallery-nav-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.8); border: none; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
+    .gallery-thumbs { display: flex; overflow-x: auto; padding: 8px; background: #222; gap: 8px; }
+    .gallery-thumb { width: 60px; height: 45px; border-radius: 4px; cursor: pointer; object-fit: cover; opacity: 0.6; }
+    .gallery-thumb.active { opacity: 1; border: 2px solid var(--primary); }
+    .gallery-index { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+    .profile-header { background: linear-gradient(135deg, var(--primary), #3b82f6); padding: 30px 20px; color: white; }
+    .profile-header .user { display: flex; align-items: center; gap: 16px; }
+    .profile-header .avatar { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 32px; }
+    .profile-header .user-info h3 { font-size: 20px; font-weight: 600; }
+    .profile-header .user-info p { font-size: 14px; opacity: 0.8; margin-top: 4px; }
+    .profile-header .login-btn { padding: 8px 24px; border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; font-size: 14px; margin-top: 12px; display: inline-block; cursor: pointer; }
+    .menu-list { margin-top: 12px; }
+    .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: white; border-bottom: 1px solid #eee; cursor: pointer; }
+    .menu-item .left { display: flex; align-items: center; gap: 12px; }
+    .menu-item .icon { width: 24px; text-align: center; }
+    .btn { padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<script src="https://unpkg.com/vue@3.3.4/dist/vue.global.prod.js"></script>
+<script src="https://unpkg.com/vue-router@4.2.4/dist/vue-router.global.prod.js"></script>
+<script src="https://unpkg.com/axios@1.5.0/dist/axios.min.js"></script>
+<script>
+const { createApp, ref, computed, onMounted, inject } = Vue;
+const { createRouter, createWebHashHistory, useRouter } = VueRouter;
+const api = axios.create({ baseURL: '/api' });
 
-    .page
+function goTo(path) {
+  window.location.hash = '#/' + (path.startsWith('/') ? path.substring(1) : path);
+}
+
+const HomePage = {
+  template: `
+    <div class="page">
+      <div class="nav-bar">
+        <h1>一百种有趣的灵魂</h1>
+        <div class="search-box" @click="goTo('search')">
+          <span>🔍</span>
+          <input type="text" placeholder="输入关键词搜索内容" readonly>
+        </div>
+        <div class="right-actions">
+          <span>🔔</span>
+        </div>
+      </div>
+      <div v-if="loading" class="loading">加载中...</div>
+      <template v-else>
+        <div v-if="banners.length" class="swipe">
+          <div class="swipe-track" :style="{ transform: 'translateX(' + (-currentBanner * 100) + '%)' }">
+            <div v-for="(banner, idx) in banners" :key="banner.id" class="swipe-item" @click="goToBanner(banner)">
+              <img :src="banner.image" :alt="banner.title">
+            </div>
+          </div>
+          <div v-if="banners.length > 1" class="swipe-dots">
+            <div v-for="(banner, idx) in banners" :key="idx" :class="['swipe-dot', { active: idx === currentBanner }]" @click="currentBanner = idx"></div>
+          </div>
+        </div>
+        <div v-if="quickEntries.length" class="quick-entry">
+          <div class="entry-item" v-for="e in quickEntries" :key="e.id" @click="goTo('category')">
+            <img :src="e.icon" :alt="e.name">
+            <span>{{ e.name }}</span>
+          </div>
+        </div>
+        <div class="section-title">热门推荐</div>
+        <div class="content-list">
+          <div v-for="c in contents" :key="c.id" class="content-card" @click="goTo('detail/' + c.id)">
+            <img :src="c.cover" alt="cover">
+            <div class="info">
+              <div class="title">{{ c.title }}</div>
+              <div class="summary">{{ c.summary }}</div>
+              <div class="meta">
+                <span>{{ c.publish_time }}</span>
+                <span>👁 {{ c.view_count }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="!contents.length" class="empty">暂无内容</div>
+      </template>
+      <div class="tab-bar">
+        <div class="tab-item active" @click="goTo('')">
+          <span>🏠</span><span>首页</span>
+        </div>
+        <div class="tab-item" @click="goTo('category')">
+          <span>📂</span><span>分类</span>
+        </div>
+        <div class="tab-item" @click="goTo('profile')">
+          <span>👤</span><span>我的</span>
+        </div>
+      </div>
+      <div class="copyright">copyright Koda&Fiona</div>
+    </div>
+  `,
+  setup() {
+    const loading = ref(true);
+    const banners = ref([]);
+    const quickEntries = ref([]);
+    const contents = ref([]);
+    const currentBanner = ref(0);
+    let bannerTimer = null;
+    
+    const startBannerTimer = () => {
+      if (banners.value.length <= 1) return;
+      bannerTimer = setInterval(() => {
+        currentBanner.value = (currentBanner.value + 1) % banners.value.length;
+      }, 3000);
+    };
+    
+    const goToBanner = (banner) => {
+      if (banner.link_url) {
+        goTo(banner.link_url);
+      }
+    };
+    
+    onMounted(async () => {
+      try {
+        const res = await api.get('/home');
+        banners.value = res.data.data.banners;
+        quickEntries.value = res.data.data.quickEntries;
+        contents.value = res.data.data.contents;
+        startBannerTimer();
+      } catch (e) { console.error(e); }
+      loading.value = false;
+    });
+    
+    return { loading, banners, quickEntries, contents, goTo, currentBanner, goToBanner };
+  }
+};
+
+const SearchPage = {
+  template: `
+    <div class="page search-page">
+      <div class="nav-bar" @click="goTo('')">
+        <span>← 返回</span>
+        <h1>搜索</h1>
+        <span style="width:36px;"></span>
+      </div>
+      <div class="search-header">
+        <div class="search-input">
+          <input v-model="keyword" placeholder="输入关键词" @keyup.enter="doSearch">
+          <button class="btn" @click="doSearch">搜索</button>
+        </div>
+      </div>
+      <div v-if="!keyword && history.length" class="search-history">
+        <h3>搜索历史 <span @click="clearHistory" style="color:var(--primary);cursor:pointer;">清空</span></h3>
+        <div class="tags">
+          <span class="tag" v-for="h in history" :key="h" @click="selectHistory(h)">{{ h }}</span>
+        </div>
+      </div>
+      <div v-if="hasSearched" class="content-list" style="padding:12px;">
+        <div v-for="c in results" :key="c.id" class="content-card" @click="goTo('detail/' + c.id)">
+          <img :src="c.cover" alt="cover">
+          <div class="info">
+            <div class="title">{{ c.title }}</div>
+            <div class="summary">{{ c.summary }}</div>
+            <div class="meta">
+              <span>{{ c.publish_time }}</span>
+              <span>👁 {{ c.view_count }}</span>
+            </div>
+          </div>
+        </div>
+        <div v-if="!results.length" class="empty">暂无相关内容，换个关键词试试</div>
+      </div>
+    </div>
+  `,
+  setup() {
+    const keyword = ref('');
+    const history = ref(JSON.parse(localStorage.getItem('searchHistory') || '[]'));
+    const results = ref([]);
+    const hasSearched = ref(false);
+    const doSearch = async () => {
+      if (!keyword.value.trim()) return;
+      history.value = [keyword.value, ...history.value.filter(h => h !== keyword.value)].slice(0, 20);
+      localStorage.setItem('searchHistory', JSON.stringify(history.value));
+      hasSearched.value = true;
+      const res = await api.get('/search', { params: { keyword: keyword.value } });
+      results.value = res.data.data;
+    };
+    const clearHistory = () => {
+      history.value = [];
+      localStorage.removeItem('searchHistory');
+    };
+    const selectHistory = (h) => {
+      keyword.value = h;
+      doSearch();
+    };
+    return { keyword, history, results, hasSearched, doSearch, clearHistory, selectHistory, goTo };
+  }
+};
+
+const CategoryPage = {
+  template: `
+    <div class="page">
+      <div class="nav-bar">
+        <span style="width:36px;"></span>
+        <h1>分类</h1>
+        <span style="width:36px;"></span>
+      </div>
+      <div v-if="loading" class="loading">加载中...</div>
+      <div v-else class="category-page">
+        <div class="category-sidebar">
+          <div v-for="c in categories" :key="c.id" 
+               :class="['category-sidebar-item', { active: currentCategory === c.id }]"
+               @click="currentCategory = c.id">
+            {{ c.name }}
+          </div>
+        </div>
+        <div class="category-content">
+          <div class="content-list">
+            <div v-for="c in currentContents" :key="c.id" class="content-card" @click="goTo('detail/' + c.id)">
+              <img :src="c.cover" alt="cover">
+              <div class="info">
+                <div class="title">{{ c.title }}</div>
+                <div class="summary">{{ c.summary }}</div>
+                <div class="meta">
+                  <span>{{ c.publish_time }}</span>
+                  <span>👁 {{ c.view_count }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="!currentContents.length" class="empty">该分类暂无内容</div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item" @click="goTo('')">
+          <span>🏠</span><span>首页</span>
+        </div>
+        <div class="tab-item active" @click="goTo('category')">
+          <span>📂</span><span>分类</span>
+        </div>
+        <div class="tab-item" @click="goTo('profile')">
+          <span>👤</span><span>我的</span>
+        </div>
+      </div>
+    </div>
+  `,
+  setup() {
+    const loading = ref(true);
+    const categories = ref([]);
+    const contents = ref([]);
+    const currentCategory = ref(null);
+    const currentContents = computed(() => contents.value.filter(c => c.category_id === currentCategory.value));
+    onMounted(async () => {
+      const [catRes, contentRes] = await Promise.all([api.get('/categories'), api.get('/content')]);
+      categories.value = catRes.data.data;
+      contents.value = contentRes.data.data;
+      if (categories.value.length) currentCategory.value = categories.value[0].id;
+      loading.value = false;
+    });
+    return { loading, categories, currentCategory, currentContents, goTo };
+  }
+};
+
+const DetailPage = {
+  template: `
+    <div class="page detail-page" style="padding-bottom:76px;">
+      <div class="nav-bar" @click="goTo('')">
+        <span>← 返回</span>
+        <h1>详情</h1>
+        <span style="width:36px;">🔗</span>
+      </div>
+      <div v-if="loading" class="loading">加载中...</div>
+      <template v-else>
+        <div v-if="content.images && content.images.length > 0" class="image-gallery">
+          <div class="gallery-main">
+            <img :src="currentImage" @click="toggleFullscreen" alt="gallery">
+          </div>
+          <div v-if="content.images.length > 1" class="gallery-nav">
+            <button class="gallery-nav-btn" @click.stop="prevImage">◀</button>
+            <button class="gallery-nav-btn" @click.stop="nextImage">▶</button>
+          </div>
+          <div v-if="content.images.length > 1" class="gallery-index">{{ currentIndex + 1 }} / {{ content.images.length }}</div>
+          <div v-if="content.images.length > 1" class="gallery-thumbs">
+            <img v-for="(img, idx) in content.images" :key="idx" :src="img" :class="['gallery-thumb', { active: idx === currentIndex }]" @click="currentIndex = idx" alt="thumb">
+          </div>
+        </div>
+        <img v-else-if="content" :src="content.cover" class="cover">
+        <div class="content-wrap" v-if="content">
+          <h2>{{ content.title }}</h2>
+          <div class="meta">
+            <span>{{ content.publish_time }}</span>
+            <span>👁 {{ content.view_count }}</span>
+          </div>
+          <div class="body" v-html="content.body"></div>
+        </div>
+        <div class="related" v-if="related.length">
+          <h3>相关推荐</h3>
+          <div class="content-list" style="padding:0;">
+            <div v-for="r in related" :key="r.id" class="content-card" @click="goTo('detail/' + r.id)">
+              <img :src="r.cover" alt="cover">
+              <div class="info">
+                <div class="title">{{ r.title }}</div>
+                <div class="meta">
+                  <span>{{ r.publish_time }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+      <div class="detail-bottom-toolbar">
+        <div :class="['toolbar-item', { active: isCollected }]" @click="toggleCollect">
+          <span>{{ isCollected ? '⭐' : '☆' }}</span>
+          <span>{{ isCollected ? '已收藏' : '收藏' }}</span>
+        </div>
+        <div class="toolbar-item" @click="goTo('profile')">
+          <span>⏰</span>
+          <span>浏览历史</span>
+        </div>
+      </div>
+    </div>
+  `,
+  setup() {
+    const loading = ref(true);
+    const content = ref(null);
+    const related = ref([]);
+    const isCollected = ref(false);
+    const currentIndex = ref(0);
+    const currentImage = computed(() => {
+      if (!content.value || !content.value.images) return '';
+      return content.value.images[currentIndex.value];
+    });
+    const prevImage = () => {
+      if (!content.value) return;
+      currentIndex.value = (currentIndex.value - 1 + content.value.images.length) % content.value.images.length;
+    };
+    const nextImage = () => {
+      if (!content.value) return;
+      currentIndex.value = (currentIndex.value + 1) % content.value.images.length;
+    };
+    const toggleFullscreen = () => {
+      // Simple fullscreen-like view: just show the image in an alert
+    };
+    const route = VueRouter.useRoute();
+    onMounted(async () => {
+      const res = await api.get('/content/' + route.params.id);
+      content.value = res.data.data.content;
+      related.value = res.data.data.related;
+      currentIndex.value = 0;
+      loading.value = false;
+    });
+    const toggleCollect = () => { isCollected.value = !isCollected.value; };
+    return { loading, content, related, isCollected, toggleCollect, goTo, currentIndex, currentImage, prevImage, nextImage, toggleFullscreen };
+  }
+};
+
+const ProfilePage = {
+  template: `
+    <div class="page">
+      <div class="nav-bar">
+        <span style="width:36px;"></span>
+        <h1>我的</h1>
+        <span style="width:36px;"></span>
+      </div>
+      <div class="profile-header">
+        <div class="user">
+          <div class="avatar">👤</div>
+          <div class="user-info">
+            <h3>访客用户</h3>
+            <p>UID: U000001</p>
+          </div>
+        </div>
+        <div class="login-btn" @click="showLogin = true">点击登录</div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-item" @click="goTo('my-collections')">
+          <div class="left">
+            <span class="icon">⭐</span>
+            <span>我的收藏</span>
+          </div>
+          <span>→</span>
+        </div>
+        <div class="menu-item" @click="goTo('browse-history')">
+          <div class="left">
+            <span class="icon">⏰</span>
+            <span>浏览历史</span>
+          </div>
+          <span>→</span>
+        </div>
+        <div class="menu-item">
+          <div class="left">
+            <span class="icon">🔔</span>
+            <span>消息中心</span>
+          </div>
+          <span>→</span>
+        </div>
+        <div class="menu-item">
+          <div class="left">
+            <span class="icon">⚙</span>
+            <span>设置</span>
+          </div>
+          <span>→</span>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item" @click="goTo('')">
+          <span>🏠</span><span>首页</span>
+        </div>
+        <div class="tab-item" @click="goTo('category')">
+          <span>📂</span><span>分类</span>
+        </div>
+        <div class="tab-item active" @click="goTo('profile')">
+          <span>👤</span><span>我的</span>
+        </div>
+      </div>
+    </div>
+  `,
+  setup() {
+    const showLogin = ref(false);
+    return { showLogin, goTo };
+  }
+};
+
+const SimplePage = {
+  template: `
+    <div class="page">
+      <div class="nav-bar" @click="goTo('profile')">
+        <span>← 返回</span>
+        <h1>{{ title }}</h1>
+        <span style="width:36px;"></span>
+      </div>
+      <div class="empty">
+        <div style="font-size:48px;margin-bottom:16px;">{{ icon }}</div>
+        <div>暂无内容</div>
+        <div style="margin-top:12px;color:#999;font-size:13px;">功能开发中...</div>
+      </div>
+    </div>
+  `,
+  setup() {
+    const route = VueRouter.useRoute();
+    const pageInfo = {
+      'my-collections': { title: '我的收藏', icon: '⭐' },
+      'browse-history': { title: '浏览历史', icon: '⏰' }
+    };
+    const page = pageInfo[route.path.substring(1)] || { title: '', icon: '' };
+    return { ...page, goTo };
+  }
+};
+
+const routes = [
+  { path: '/', component: HomePage },
+  { path: '/search', component: SearchPage },
+  { path: '/category', component: CategoryPage },
+  { path: '/detail/:id', component: DetailPage },
+  { path: '/profile', component: ProfilePage },
+  { path: '/my-collections', component: SimplePage },
+  { path: '/browse-history', component: SimplePage }
+];
+
+const router = createRouter({ history: createWebHashHistory(), routes });
+const app = createApp({ template: '<router-view></router-view>' });
+app.use(router);
+app.mount('#app');
+</script>
+</body>
+</html>
