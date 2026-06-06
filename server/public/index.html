@@ -338,6 +338,10 @@ const DetailPage = {
         <span style="width:36px;">🔗</span>
       </div>
       <div v-if="loading" class="loading">加载中...</div>
+      <div v-else-if="!content" class="empty">
+        <div style="font-size:48px;margin-bottom:16px;">😢</div>
+        <div>加载失败，请稍后重试</div>
+      </div>
       <template v-else>
         <div v-if="content.images && content.images.length > 0" class="image-gallery">
           <div class="gallery-main">
@@ -352,8 +356,8 @@ const DetailPage = {
             <img v-for="(img, idx) in content.images" :key="idx" :src="img" :class="['gallery-thumb', { active: idx === currentIndex }]" @click="currentIndex = idx" alt="thumb">
           </div>
         </div>
-        <img v-else-if="content" :src="content.cover" class="cover">
-        <div class="content-wrap" v-if="content">
+        <img v-else :src="content.cover" class="cover">
+        <div class="content-wrap">
           <h2>{{ content.title }}</h2>
           <div class="meta">
             <span>{{ content.publishTime }}</span>
@@ -376,7 +380,7 @@ const DetailPage = {
           </div>
         </div>
       </template>
-      <div class="detail-bottom-toolbar">
+      <div class="detail-bottom-toolbar" v-if="!loading">
         <div :class="['toolbar-item', { active: isCollected }]" @click="toggleCollect">
           <span>{{ isCollected ? '⭐' : '☆' }}</span>
           <span>{{ isCollected ? '已收藏' : '收藏' }}</span>
