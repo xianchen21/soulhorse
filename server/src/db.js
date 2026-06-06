@@ -5,7 +5,13 @@ import { dirname, join } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const DB_PATH = join(__dirname, '../data.json')
+// Vercel 环境下的路径配置
+const isVercel = process.env.VERCEL || process.env.NODE_ENV === 'production'
+const DB_PATH = isVercel 
+  ? join(__dirname, '../../data.json')  // Vercel 环境
+  : join(__dirname, '../data.json')     // 本地开发环境
+
+console.log('DB_PATH:', DB_PATH)
 
 const defaultData = {
   users: [],
@@ -47,7 +53,7 @@ const defaultData = {
       summary: '来自土库曼斯坦的国宝，世界上最稀有的马种之一，以其独特的金属光泽皮毛闻名。',
       cover: '/images/阿哈尔捷金马/akhal_1.jpg',
       images: ['/images/阿哈尔捷金马/akhal_1.jpg', '/images/阿哈尔捷金马/akhal_2.jpg', '/images/阿哈尔捷金马/akhal_3.jpg', '/images/阿哈尔捷金马/akhal_4.jpg', '/images/阿哈尔捷金马/akhal_5.jpg', '/images/阿哈尔捷金马/akhal_6.jpg', '/images/阿哈尔捷金马/akhal_7.jpg', '/images/阿哈尔捷金马/akhal_8.jpg', '/images/阿哈尔捷金马/akhal_9.jpg', '/images/阿哈尔捷金马/akhal_10.jpg', '/images/阿哈尔捷金马/akhal_11.jpg', '/images/阿哈尔捷金马/akhal_12.jpg', '/images/阿哈尔捷金马/akhal_13.jpg', '/images/阿哈尔捷金马/akhal_14.jpg'],
-      body: '<h2>一百种有趣的灵魂——其三：阿哈尔捷金马</h2><p>阿哈尔捷金马（Akhal-Teke）来自土库曼斯坦，是世界上最古老、最稀有的纯种马之一，它们的皮毛会在阳光下反射出独特的金属光泽，因此也被称为「来自天堂的马」。传说中汗血宝马就是它们的后代，因为皮肤薄，运动时可以看到血管，出汗时皮肤会充血泛红，看起来像在流血，自然也有不同的「汗血」说法，但这种特性让它们在历史上成为了珍贵的战马。如今土库曼斯坦将它们印在国徽和货币上，是国宝级的存在。</p><p>阿哈尔捷金马在丝绸之路的历史上也扮演了重要角色，它们能在沙漠中长途跋涉，据说有一匹马曾在3000年前创下了1935年从阿什哈巴德跑到莫斯科的纪录，用时84天，跑完4000多公里的沙漠路，因此也被称为「沙漠中的超级马拉松选手」。</p><h3>✨ 特征</h3><p>体型纤细优雅，脖子修长，头型精致，身体线条流畅纤细，皮肤薄能看到血管</p><h3>✨ 标志性特征</h3><p>皮毛有金属光泽，皮肤薄，出汗时会呈现出独特的「汗血」效果（图1-9）</p><h3>🖼️ 图片说明</h3><p>图1-9是土库曼斯坦原版阿哈尔捷金，图10是中国繁育的阿哈尔捷金，图11-14是与其他马种的混血</p>',
+      body: '<h2>一百种有趣的灵魂——其三：阿哈尔捷金马</h2><p>阿哈尔捷金马（Akhal-Teke）来自土库曼斯坦，是世界上最古老、最稀有的纯种马之一，它们的皮毛会在阳光下反射出独特的金属光泽，因此也被称为「来自天堂的马」。传说中汗血宝马就是它们的后代，因为皮肤薄，运动时可以看到血管，出汗时皮肤会充血泛红，看起来像在流血，自然也有不同的「汗血」说法，但这种特性让它们在历史上成为了珍贵的战马。如今土库曼斯坦将它们印在国徽和货币上，是国宝级的存在。</p><p>阿哈尔捷金马在丝绸之路的历史上也扮演了重要角色，它们能在沙漠中长途跋涉，据说有一匹马曾在3000年前创下了1935年从阿什哈巴德跑到莫斯科的纪录，用时84天，跑完4000多公里的沙漠路，因此也被称为「沙漠中的超级马拉松选手」。</p><h3>✨ 特征</h3><p>体型纤细优雅，脖子修长，头型精致，身体线条流畅纤细，皮肤薄能看到血管</p><h3>✨ 标志性特征</h3><p>皮毛有金属光泽，皮肤薄，出汗时会呈现出独特的「汗血」效果</p><h3>🖼️ 图片说明</h3><p>图1-9是土库曼斯坦原版阿哈尔捷金，图10是中国繁育的阿哈尔捷金，图11-14是与其他马种的混血</p>',
       category_id: 'cat-1',
       view_count: 2579,
       status: 1,
@@ -97,16 +103,21 @@ const defaultData = {
 let db = null
 
 export function initDatabase() {
+  console.log('Initializing database, DB_PATH:', DB_PATH)
+  console.log('File exists:', existsSync(DB_PATH))
+  
   if (existsSync(DB_PATH)) {
     try {
       const content = readFileSync(DB_PATH, 'utf-8')
       db = JSON.parse(content)
+      console.log('Database loaded from file')
     } catch (e) {
+      console.error('Failed to load database from file, using default:', e)
       db = { ...defaultData }
     }
   } else {
+    console.log('Database file not found, using default data')
     db = { ...defaultData }
-    saveDb()
   }
 }
 

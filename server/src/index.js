@@ -11,13 +11,23 @@ import trackRoutes from './routes/track.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// Vercel 环境下的路径配置
+const isVercel = process.env.VERCEL || process.env.NODE_ENV === 'production'
+const staticPath = isVercel 
+  ? path.join(__dirname, '../../public')  // Vercel 环境
+  : path.join(__dirname, '../public')     // 本地开发环境
+
+console.log('Running in:', isVercel ? 'Vercel' : 'Local')
+console.log('Static path:', staticPath)
+console.log('__dirname:', __dirname)
+
 const app = express()
 const PORT = process.env.PORT || 3001
 
 // 中间件
 app.use(cors())
 app.use(express.json())
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(express.static(staticPath))
 
 // 初始化数据库
 initDatabase()
