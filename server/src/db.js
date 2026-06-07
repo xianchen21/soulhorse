@@ -5,12 +5,21 @@ import { dirname, join } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// Vercel 环境下的路径配置 - 支持从 server/src/ 或 api/ 调用
-const isVercel = process.env.VERCEL || process.env.NODE_ENV === 'production'
-const DB_PATH = join(__dirname, '../data.json')
+// 路径配置 - 根据调用位置动态计算
+// 从 api/index.js 调用时 __dirname = /api/
+// 从 server/src/index.js 调用时 __dirname = /server/src/
+const callerDir = __dirname
+let DB_PATH
+
+if (callerDir.includes('/api/')) {
+  // 从 api/index.js 调用
+  DB_PATH = join(callerDir, '../server/data.json')
+} else {
+  // 从 server/src/index.js 调用
+  DB_PATH = join(callerDir, '../data.json')
+}
 
 console.log('=== DB 初始化 ===')
-console.log('isVercel:', isVercel)
 console.log('__dirname:', __dirname)
 console.log('DB_PATH:', DB_PATH)
 console.log('File exists:', existsSync(DB_PATH))
